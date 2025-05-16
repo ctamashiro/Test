@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Results</title>
+  <style>
+  body {
+  font-family: system-ui, sans-serif;
+  background: linear-gradient(-45deg, #e3f2fd, #fbe9e7, #ffe0b2, #e1bee7);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  padding: 30px;
+  max-width: 900px;
+  margin: auto;
+  color: #202124;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+h1 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 32px;
+  color: #333;
+}
+
+.card {
+  padding: 20px;
+  border-radius: 12px;
+  margin: 24px 0;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.01);
+}
+
+.card.correct {
+  background-color: rgba(208, 242, 219, 0.9);
+  border-left: 6px solid #28a745;
+}
+
+.card.incorrect {
+  background-color: rgba(255, 204, 204, 0.9);
+  border-left: 6px solid #dc3545;
+}
+
+.card h3 {
+  margin: 0 0 12px;
+  font-size: 22px;
+}
+
+.card p {
+  margin: 6px 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.explanation {
+  margin-top: 14px;
+  background: #ffffffcc;
+  padding: 16px;
+  border-radius: 6px;
+  font-family: ui-serif, Georgia, serif;
+  font-size: 16px;
+  color: #3c4043;
+  box-shadow: inset 0 0 0 1px #ccc;
+}
+
+.status-label {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+</style>
+
+  </style>
+</head>
+<body>
+
+  <h1>Your Results</h1>
+  <div id="results"></div>
+
+  <script>
+    async function fetchExplanation(question, selected, correct) {
+      try {
+        const response = await fetch("http://localhost:3000/api/explain", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question, selected, correct })
+        });
+
+        const data = await response.json();
+        console.log("Explanation response:", data); // DEBUG LOG
+        return data.explanation || "No explanation available.";
+      } catch (error) {
+        return "⚠️ Error fetching explanation.";
+      }
+    }
+
+    async function showResults() {
+      const resultsDiv = document.getElementById("results");
+      const answers = JSON.parse(localStorage.getItem("quizResults")) || [];
+
+      for (const entry of answers) {
+        const isCorrect = entry.selected === entry.correct;
+        const card = document.createElement("div");
+        card.classList.add("card", isCorrect ? "correct" : "incorrect");
+
+        card.innerHTML = `
+          <h3>${isCorrect ? "✅ Correct!" : "❌ Incorrect"}</h3>
+          <p><strong>Question:</strong> ${entry.question}</p>
+          <p><strong>Your Answer:</strong> ${entry.selected}</p>
+          <p><strong>Correct Answer:</strong> ${entry.correct}</p>
+          <div class="explanation">⏳ Generating explanation...</div>
+        `;
+
+        resultsDiv.appendChild(card);
+
+        const explanation = await fetchExplanation(entry.question, entry.selected, entry.correct);
+        card.querySelector(".explanation").innerText = explanation;
+      }
+    }
+    showResults();
+  </script>
+</body>
+</html>

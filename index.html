@@ -1,561 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Diagnostic Cybersecurity Quiz</title>
-    <link rel="stylesheet" href="style.css" />
-    <style>
-      /* Quiz container styles */
-      .quiz-container {
-        font-family: "Roboto", sans-serif;
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 16px;
-        display: none;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cybersecurity Diagnostic Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f9f9f9;
+      color: #333; 
+    }
 
-      .quiz-container .timer {
-        font-weight: bold;
-        text-align: right;
-      }
+    h1 {
+      text-align: center;
+      font-size: 36px;
+      color: #1d3557;
+    }
 
-      .timer.danger {
-        color: red;
-      }
+    h2 {
+      font-size: 24px;
+      margin-top: 30px;
+      color: #457b9d;
+    }
 
-      .quiz-container h2.question {
-        font-size: 20px;
-        background: #d0ecff;
-        padding: 16px;
-        border-radius: 8px;
-        font-weight: normal;
-        line-height: 1.6;
-      }
+    ul {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      padding-left: 20px;
+    }
 
-      .quiz-container .options {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-        margin-bottom: 20px;
-      }
+    li {
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
 
-      .quiz-container .option {
-        border: none;
-        padding: 24px 32px;
-        font-size: 18px;
-        background: #1d3557;
-        color: #fff;
-      }
+    p {
+      line-height: 1.6;
+      margin: 20px 0;
+    }
 
-      .quiz-container button {
-        cursor: pointer;
-      }
+    img {
+      display: block;
+      margin: 30px auto;
+      max-width: 100%;
+      border: 5px solid #ccc;
+    }
 
-      .disabled {
-        pointer-events: none;
-      }
+    .button-container {
+      text-align: center;
+      margin: 30px 0;
+    }
 
-      .option.correct {
-        background: #51e351;
-        color: #222;
-      }
+    .button-container button {
+      background-color: #e63946;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 24px;
+      font-size: 16px;
+      cursor: pointer;
+    }
 
-      .option.incorrect {
-        background: #e63946;
-      }
+    table {
+      width: 100%;
+      margin-top: 40px;
+      border-collapse: collapse;
+    }
 
-      .quiz-container .next-btn,
-      .quiz-result .retake-btn {
-        background: #222;
-        color: #fff;
-        border: none;
-        padding: 12px 32px;
-        font-size: 20px;
-        text-transform: uppercase;
-        font-weight: bold;
-        letter-spacing: 3px;
-        cursor: pointer;
-        width: fit-content;
-      }
+    table, th, td {
+      border: 2px solid #333;
+    }
 
-      .quiz-result {
-        display: none;
-        flex-direction: column;
-        gap: 24px;
-        max-width: 900px;
-        margin: 0 auto;
-        font-family: "Roboto", sans-serif;
-        padding: 16px;
-      }
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
 
-      .quiz-result .question-container {
-        padding: 12px;
-        border: 1px solid #eee;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
+    th {
+      background-color: #1d3557;
+      color: white;
+    }
 
-      .quiz-result .question-container.incorrect {
-        background: #e63946;
-        color: #fff;
-      }
+    td {
+      background-color: #f1f1f1;
+    }
+  </style>
+</head>
+<body>
 
-      .question-number {
-        font-size: 16px;
-        margin-right: 16px;
-        background: #1d3557;
-        color: #fff;
-        padding: 8px;
-        border-radius: 8px;
-      }
+  <h1>Cybersecurity Awareness</h1>
+  <hr>
 
-      @media (max-width: 700px) {
-        .quiz-container .options {
-          grid-template-columns: 1fr;
-        }
-      }
+  <ul>
+    <li>What is Cybersecurity?</li>
+  </ul>
+  <p>
+    Cybersecurity is the practice of information/data safety. 
+  </p>
+  <ul>
+    <li>What are common threats?</li>
+  </ul>
 
-      .start-btn-container {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-family: "Roboto", sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
+  <p>
+    One of the most common threats is phishing. Phishing attacks come in many shapes and forms. However, cybercriminals commonly embed malware and malicious content through email, text, or phone calls to obtain our personal information from unsuspecting victims. It is estimated that 3.4 billion phishing emails get sent daily, accounting for about 94% of cyberattack attempts (Griffiths, 2024). Phishing attempts are social engineering attacks in which criminals make it seemingly innocent, like a free iPhone giveaway, to make individuals click an embedded link and have victims spill out their personal information on cloned websites that may seem like the real one (ncsc.gov, 2018). The cybercriminal could then do anything they want with your information, including identity theft, blackmailing, getting into private accounts, and other immoral activities (ncsc.gov, 2018).
+  </p>
 
-      .start-btn-container h2 {
-        font-size: 40px;
-        margin: 0;
-      }
+  <ul>
+    <li>What is the purpose of this website?</li>
+  </ul>
 
-      .start-btn-container .start-btn {
-        background: #e63946;
-        color: #fff;
-        padding: 8px 32px;
-        border-radius: 8px;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        text-transform: uppercase;
-        font-weight: bold;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="start-btn-container">
-      <h2>Diagnostic Cybersecurity Quiz</h2>
-      <p>Test your knowledge across various categories</p>
-      <button class="start-btn">Start Quiz</button>
-    </div>
+  <p>
+    To address the growing threat of digital attacks, our group will make an online education program that allows users to familiarize themselves with the dangers of the internet. To do this, our group will collaborate and write a program in C++. We will code an algorithm that allows the software to adjust the question based on the user's knowledge. When the client first uses the program, they will be sent for a diagnostic test so the software can measure the client's knowledge. From there, the application will teach the user the topics that they are weak at and periodically throw in questions that they already got right.
+  </p>
 
-    <div class="quiz-container">
-      <h1>Diagnostic Cybersecurity Quiz</h1>
-      <div class="timer">Time left: 10 seconds</div>
-      <h2 class="question"></h2>
-      <div class="options"></div>
-      <button class="next-btn">Next</button>
-    </div>
+  <img src="https://executivegov-media.s3.amazonaws.com/2024/05/08/58/6f/64/88/6f/0f/bf/a4/Concept-of-cybersecurity-and-biometric-scanning_1200x628-202456.webp" alt="Cybersecurity Illustration" />
 
-    <div class="quiz-result"></div>
-
-    <script>
-      // Quiz Data
-      const quizData = [
-        {
-          question: "How can you recognize a phishing email?",
-          options: ["The email is sent from a familiar and trusted email address.", 
-                    "The email contains urgent or threatening language, asking you to take immediate action.",
-                    "The email includes proper spelling and grammar with no suspicious links or attachments.",
-                    "The email provides a clear company signature and legitimate contact information."],
-          correct: "The email contains urgent or threatening language, asking you to take immediate action."
-        },
-        {
-          question: "What is malware, and what are the different forms it can take?",
-          options: ["Malware is harmless software used to improve the performance of your computer, such as antivirus programs.",
-                    "Malware is malicious software designed to damage, disrupt, or gain unauthorized access to a system, and it can take forms like viruses, trojans, and spyware.",
-                    "Malware is a type of hardware that slows down your computer, usually caused by overloading your device with too many programs.",
-                    "Malware is a type of software that speeds up your internet connection by blocking unwanted websites."],
-          correct: "Malware is malicious software designed to damage, disrupt, or gain unauthorized access to a system, and it can take forms like viruses, trojans, and spyware.",
-        },
-        {
-          question: "What is ransomware, and how can you protect your devices from it?",
-          options: ["Ransomware is software that speeds up your computer by clearing unused files. You can protect your devices by installing more applications.",
-                    "Ransomware is a tool used by legitimate companies to ensure you pay for their services. You can protect yourself by using only free software.",
-                    "Ransomware is a type of malware that encrypts your files or locks your device, demanding payment to unlock it. You can protect your devices by keeping software updated, using antivirus, and backing up your data.",
-                    "Ransomware is a virus that deletes all your data automatically. You can protect your device by never connecting it to the internet."],
-          correct: "Ransomware is a type of malware that encrypts your files or locks your device, demanding payment to unlock it. You can protect your devices by keeping software updated, using antivirus, and backing up your data.",
-        },
-        {
-          question: "Why is it important to use different passwords for different accounts?",
-          options: ["It ensures that if one account is compromised, other accounts remain secure.",
-                    "Using different passwords helps you remember them more easily.",
-                    "It helps websites load faster by reducing security checks.",
-                    "Using different passwords prevents your internet connection from being hacked."],
-          correct: "It ensures that if one account is compromised, other accounts remain secure.",
-        },
-        {
-          question: "What are the key principles of data privacy, and why is it important to protect personal information online?",
-          options: ["Data privacy is only about restricting access to certain websites. Protecting personal information is unnecessary unless you're a business owner.",
-                    "Data privacy involves principles like consent, transparency, data minimization, and security. Protecting personal information online prevents identity theft, fraud, and unauthorized access.",
-                    "Data privacy focuses on preventing the sharing of internet browsing history. Protecting personal information online is important because it helps reduce spam emails. ",
-                    "Data privacy only applies to social media platforms. Protecting personal information online helps you avoid annoying advertisements."],
-          correct: "Data privacy involves principles like consent, transparency, data minimization, and security. Protecting personal information online prevents identity theft, fraud, and unauthorized access.",
-        },
-        {
-          question: "What are GDPR and CCPA, and how do they protect user data?",
-          options: ["GDPR and CCPA are software programs that protect user data by blocking all internet access from unauthorized users.",
-                    "GDPR and CCPA are regulations that require companies to collect as much user data as possible to enhance services and improve user experience.",
-                    "GDPR (General Data Protection Regulation) and CCPA (California Consumer Privacy Act) are laws that give users control over their personal data, requiring companies to be transparent about data collection and secure user data.",
-                    "GDPR and CCPA are antivirus tools designed to scan and remove malware from user devices."],
-          correct: "GDPR (General Data Protection Regulation) and CCPA (California Consumer Privacy Act) are laws that give users control over their personal data, requiring companies to be transparent about data collection and secure user data.",
-        },
-        {
-          question: "Why is it important for you to update your software for security purposes?",
-          options: ["Updates allow you to change the appearance of your software and add new features.",
-                    "Software updates are optional and only improve performance, with no impact on security. ",
-                    "Updates fix vulnerabilities and security holes, protecting your system from cyberattacks and malware.",
-                    "Updating software slows down your device, making it harder for hackers to target you."],
-          correct: "Updates fix vulnerabilities and security holes, protecting your system from cyberattacks and malware.",
-        },
-        {
-          question: "What is the danger of clicking on suspicious links or downloading untrusted attachments?",
-          options: ["It can help improve your computer's performance by cleaning out unwanted files.",
-                    "It could install malware on your device, steal personal information, or trigger ransomware attacks.",
-                    "It usually results in receiving harmless advertisements that can be ignored.",
-                    "It improves your online experience by providing access to new websites and apps."],
-          correct: "It could install malware on your device, steal personal information, or trigger ransomware attacks.",
-        },
-        {
-          question: "What is two-factor authentication (2FA), and how does it enhance security?",
-          options: ["2FA is a security method that requires only a password to access an account, making it easy to remember. ",
-                    "2FA is a security measure that requires two different forms of identification, such as a password and a verification code sent to your mobile device, enhancing account security.",
-                    "2FA is an optional feature that users can choose to enable or disable at any time, regardless of their account's security settings.",
-                    "2FA is a technique that automatically locks your account after one unsuccessful login attempt."],
-          correct: "2FA is a security measure that requires two different forms of identification, such as a password and a verification code sent to your mobile device, enhancing account security.",
-        },
-        {
-          question: "What type of attack overwhelms a system with traffic to make it unavailable to users?",
-          options: ["Phishing",
-                    "DDoS (Distributed Denial of Service)",
-                    "Man-in-the-Middle ",
-                    "SQL Injection"],
-          correct: "DDoS (Distributed Denial of Service)",
-        },
-        {
-          question: "Which of the following actions can help protect against identity theft?",
-          options: ["Sharing personal information on social media.",
-                    "Using public Wi-Fi without a VPN.",
-                    "Regularly check your financial statements and credit report.",
-                    "Using the same password for all accounts."],
-          correct: "Regularly check your financial statements and credit report.",
-        },
-        {
-          question: "What is cryptography?",
-          options: ["The practice of using coded algorithms to protect information from unauthorized access or modification",
-                    "The study of crystals",
-                    "The method used to hack into electronic doors",
-                    "A method used to design websites"],
-          correct: "The practice of using coded algorithms to protect information from unauthorized access or modification",
-        },
-        {
-          question: "What is cloud computing?",
-          options: ["The delivery of computing resources, like storage, servers, databases, and software, over the Internet as a service",
-                    "They use computers that are over 1000 feet off the ground.",
-                    "Using electronics to study the weather.",
-                    "A technology that creates artificial clouds"],
-          correct: "The delivery of computing resources, like storage, servers, databases, and software, over the Internet as a service",
-        },
-        {
-          question: "What does IoT stand for?",
-          options: ["Ideas of Technology",
-                    "Innovations of Tomorrow",
-                    "Internet of Things",
-                    "Integration of Tools"],
-          correct: "Internet of Things",
-        },
-        {
-          question: "Why is IoT important",
-          options: [" Prevents computers from overheating",
-                    "Protect your data on personal devices.",
-                    " Creates a firewall to protect information from cyber threats",
-                    "Connects everyday objects to the internet, enabling seamless communication and data exchange."],
-          correct: "Connects everyday objects to the internet, enabling seamless communication and data exchange.",
-        },
-        {
-          question: "What is social engineering?",
-          options: ["A branch of engineering that helps create new social networks",
-                    "A strategy used to improve social skills in a business",
-                    "The use of centralized planning in an attempt to manage social change and regulate the future development and behavior of a society",
-                    "A method of digital attacks used to gather a user’s information through social networks. "],
-          correct: "The use of centralized planning in an attempt to manage social change and regulate the future development and behavior of a society",
-        },
-        {
-          question: "What does IAM stand for?",
-          options: ["Instant Access Machine",
-                    "Identity and Access Management.",
-                    "Invisible Account Manager",
-                    "Inventory Adjustment Manuel"],
-          correct: "Identity and Access Management.",
-        },
-        {
-          question: "Why is IAM important",
-          options: ["Designed to schedule breaks for security analysts",
-                    "Establishes a strong foundation for secure access",
-                    "Creates extra passwords so cyber attackers will have a harder time accessing your data",
-                    "Used to create a ranking system on the most effective analysis methods. "],
-          correct: "Establishes a strong foundation for secure access",
-        },
-        {
-          question: "What does SSO stand for?",
-          options: ["Secure Session Optimizer",
-                    "Systematic Sign Out ",
-                    "Single Sign-On",
-                    "Security Service Ovveride"],
-          correct: "Single Sign-On",
-        },
-        {
-          question: "Why is SSO important?",
-          options: ["Ensures hackers have a centralized spot to break into.",
-                    "It helps remember passwords more efficiently",
-                    "Creates a secure, seamless, and manageable access environment that benefits both users in IT teams while reducing security risks.",
-                    "Allows employees to access accounts faster"],
-          correct: "Creates a secure, seamless, and manageable access environment that benefits both users in IT teams while reducing security risks.",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        },
-        {
-          question: "",
-          options: ["",
-                    "",
-                    "",
-                    ""],
-          correct: "",
-        }
-      ];
-
-      const startBtn = document.querySelector(".start-btn");
-      const startContainer = document.querySelector(".start-btn-container");
-      const quizContainer = document.querySelector(".quiz-container");
-      const questionElement = document.querySelector(".quiz-container .question");
-      const optionsContainer = document.querySelector(".quiz-container .options");
-      const nextButton = document.querySelector(".quiz-container .next-btn");
-      let currentQuestionIndex = 0;
-
-      // Start Quiz Function
-      startBtn.addEventListener("click", () => {
-        startContainer.style.display = "none";
-        quizContainer.style.display = "block";
-        loadQuestion();
-      });
-
-      // Load Question
-      function loadQuestion() {
-        const currentQuestion = quizData[currentQuestionIndex];
-        questionElement.innerText = currentQuestion.question;
-        optionsContainer.innerHTML = ""; // Clear previous options
-        currentQuestion.options.forEach((option) => {
-          const optionButton = document.createElement("button");
-          optionButton.classList.add("option");
-          optionButton.innerText = option;
-          optionButton.addEventListener("click", () => selectOption(optionButton, currentQuestion.correct));
-          optionsContainer.appendChild(optionButton);
-        });
-      }
-
-      // Select Option
-      function selectOption(selectedOption, correctAnswer) {
-        const options = document.querySelectorAll(".option");
-        options.forEach((option) => {
-          option.classList.add("disabled");
-          if (option.innerText === correctAnswer) {
-            option.classList.add("correct");
-          } else {
-            option.classList.add("incorrect");
-          }
-        });
-      }
-
-      // Next Question
-      nextButton.addEventListener("click", () => {
-        currentQuestionIndex++;
-        if (currentQuestionIndex < quizData.length) {
-          loadQuestion();
-        } else {
-          quizContainer.style.display = "none";
-          // Optionally, show results here
-        }
-      });
-    </script>
-  </body>
+  <div class="button-container">
+    <a href="https://ctamashiro.github.io/Test/" target="_blank">
+      <button>Click here for a diagnostic test on cybersecurity</button>
+    </a>
+  </div>
+</body>
 </html>

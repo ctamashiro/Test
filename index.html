@@ -1,1 +1,295 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cybersecurity Diagnostic Test</title>
+  <style>
+    body {
+  font-family: 'Segoe UI', sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background: linear-gradient(-45deg, #e3f2fd, #fffde7, #e1f5fe, #fce4ec);
+  background-size: 400% 400%;
+  animation: animatedGradient 15s ease infinite;
+  color: #1a1a1a;
+}
+
+
+  h1 {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #0d47a1;
+  }
+
+  .question {
+    font-size: 22px;
+    background-color: #bbdefb;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    font-weight: 600;
+    border-left: 6px solid #1976d2;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+
+  .option {
+    padding: 22px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #3d3e4a;
+    color: #fff;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  }
+
+  .option:hover:not(.disabled) {
+    background-color: #1976d2;
+    transform: scale(1.02);
+  }
+
+  .disabled {
+    pointer-events: none;
+    opacity: 0.9;
+  }
+
+  .correct {
+    background-color: #a5d6a7 !important;
+    color: #1b5e20;
+  }
+
+  .incorrect {
+    background-color: #ef9a9a !important;
+    color: #b71c1c;
+  }
+
+  .next-btn, #generate-results-btn {
+    background-color: #0d47a1;
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 14px 36px;
+    text-transform: uppercase;
+    cursor: pointer;
+    letter-spacing: 2px;
+    border-radius: 8px;
+    display: block;
+    margin: 30px auto 0;
+    transition: background 0.3s ease;
+  }
+
+  .next-btn:hover, #generate-results-btn:hover {
+    background-color: #1565c0;
+  }
+
+  #results-button-container {
+    display: none;
+    text-align: center;
+    margin-top: 30px;
+  }
+  .start-btn-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: "Roboto", sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .start-btn-container h2 {
+        font-size: 40px;
+        margin: 0;
+      }
+
+      .start-btn-container .start-btn {
+        background: #e63946;
+        color: #fff;
+        padding: 8px 32px;
+        border-radius: 8px;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+
+  @media (max-width: 700px) {
+    .options {
+      grid-template-columns: 1fr;
+    }
+
+    .option {
+      padding: 18px;
+    }
+  }
+  @keyframes animatedGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="start-btn-container">
+    <h2>Diagnostic Cybersecurity Quiz</h2>
+    <p>Test your knowledge across various categories</p>
+    <button class="start-btn">Start Quiz</button>
+  </div>
+  
+  <div id="quiz-container" style="display: none;">
+    <h1>Cybersecurity Quiz</h1>
+    <h2 class="question"></h2>
+    <div class="options"></div>
+    <button class="next-btn" disabled>Next</button>
+    <div id="results-button-container">
+      <button id="generate-results-btn">Generate Results</button>
+    </div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "What is phishing?",
+        options: [
+          "Fishing in a lake",
+          "Scam to trick people into giving up personal data",
+          "Secure login method",
+          "Part of antivirus software"
+        ],
+        correct: "Scam to trick people into giving up personal data"
+      },
+      {
+          question: "How can you recognize a phishing email?",
+          options: ["The email is sent from a familiar and trusted email address.", 
+                    "The email contains urgent or threatening language, asking you to take immediate action.",
+                    "The email includes proper spelling and grammar with no suspicious links or attachments.",
+                    "The email provides a clear company signature and legitimate contact information."],
+          correct: "The email contains urgent or threatening language, asking you to take immediate action."
+      },
+      {
+        question: "What does 2FA stand for?",
+        options: [
+          "Two-Factor Authentication",
+          "Fast Access Login",
+          "File Alert System",
+          "None of the above"
+        ],
+        correct: "Two-Factor Authentication"
+      },
+      {
+          question: "Why is it important to use different passwords for different accounts?",
+          options: ["It ensures that if one account is compromised, other accounts remain secure.",
+                    "Using different passwords helps you remember them more easily.",
+                    "It helps websites load faster by reducing security checks.",
+                    "Using different passwords prevents your internet connection from being hacked."],
+          correct: "It ensures that if one account is compromised, other accounts remain secure.",
+      },
+      {
+          question: "Why is it important for you to update your software for security purposes?",
+          options: ["Updates allow you to change the appearance of your software and add new features.",
+                    "Software updates are optional and only improve performance, with no impact on security. ",
+                    "Updates fix vulnerabilities and security holes, protecting your system from cyberattacks and malware.",
+                    "Updating software slows down your device, making it harder for hackers to target you."],
+          correct: "Updates fix vulnerabilities and security holes, protecting your system from cyberattacks and malware.",
+      },
+    ];
+
+    const startBtn = document.querySelector(".start-btn");
+    const questionEl = document.querySelector(".question");
+    const optionsEl = document.querySelector(".options");
+    const nextBtn = document.querySelector(".next-btn");
+    const startContainer = document.querySelector(".start-btn-container");
+    const resultsContainer = document.getElementById("results-button-container");
+    const resultsBtn = document.getElementById("generate-results-btn");
+    const quizContainer = document.getElementById("quiz-container");
+
+    let currentIndex = 0;
+    let answers = [];
+    let answered = false;
+
+    startBtn.addEventListener("click", () => {
+        startContainer.style.display = "none";
+        quizContainer.style.display = "block";
+        loadQuestion();
+      });
+    function loadQuestion() {
+      if (currentIndex >= quizData.length) {
+        nextBtn.style.display = "none";
+        resultsContainer.style.display = "block";
+        return;
+      }
+
+      const current = quizData[currentIndex];
+      questionEl.innerText = current.question;
+      optionsEl.innerHTML = "";
+      answered = false;
+      nextBtn.disabled = true;
+
+      current.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.innerText = opt;
+        btn.onclick = () => handleAnswer(btn, current.correct, current.question);
+        optionsEl.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(btn, correct, question) {
+      if (answered) return;
+      answered = true;
+      nextBtn.disabled = false;
+
+      const selected = btn.innerText;
+      const all = document.querySelectorAll(".option");
+      all.forEach(b => {
+        b.classList.add("disabled");
+        if (b.innerText === correct) b.classList.add("correct");
+        else b.classList.add("incorrect");
+      });
+
+      answers.push({ question, selected, correct });
+    }
+
+    nextBtn.onclick = () => {
+      if (!answered) {
+        alert("Please select an answer before continuing.");
+        return;
+      }
+      currentIndex++;
+      loadQuestion();
+    };
+
+    resultsBtn.onclick = () => {
+      localStorage.setItem("quizResults", JSON.stringify(answers));
+      localStorage.setItem("quizData", JSON.stringify(quizData));
+      window.location.href = "results.html";
+    };
+
+    loadQuestion();
+  </script>
+
+</body>
+</html>
